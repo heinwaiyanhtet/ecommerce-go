@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	handlers "github.com/ecommerce-go/internal/handler"
 	repositories "github.com/ecommerce-go/internal/repository"
@@ -23,17 +24,25 @@ func main() {
 		fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))
 		fmt.Println("DB_PORT:", os.Getenv("DB_PORT"))
 
-		repo, err := repositories.NewUserRepo()
+		repo, err := repositories.NewUserRepo();
 
-		if err != nil {
-			log.Fatalf("Error initializing user repo: %v", err)
-		}
+		authSvc := services.NewAuthService(repo, os.Getenv("JWT_SECRET"), 24*time.Hour)
+		authHandler := handlers.NewAuthHandler(authSvc)	
+
+
+		mux := http.NewServeMux()
+		mux.HandleFunc("/signup", authHandler.Signup)
+		mux.HandleFunc("/login", authHandler.Login)
+
+		protected := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte("Secret data"))
+		})
+
+		mux.Handle("/secret", handlers.JWTMiddleware([]byte(os.Getenv("JWT_SECRET")))(protected))
 
 		userService := services.NewUserService(repo)
 		userHandler := handlers.NewUserHandler(userService)
 
-		mux := http.NewServeMux()
-		
 		mux.HandleFunc("/users", userHandler.GetAllUsers)
 
 		port := ":8080"
