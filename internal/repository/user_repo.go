@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"github.com/ecommerce-go/internal/model"
+
+	models "github.com/ecommerce-go/internal/model"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type UserRepository interface {
 	FetchUser() (*models.User, error)
+	GetAll() ([]*models.User, error) 
 }
 
 type userRepo struct {
@@ -17,7 +19,7 @@ type userRepo struct {
 }
 
 func NewUserRepo() (*userRepo, error) {
-	// Read environment variables
+
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
@@ -33,13 +35,13 @@ func NewUserRepo() (*userRepo, error) {
 		return nil, fmt.Errorf("error opening database: %v", err)
 	}
 
-	// Test the connection
 	err = db.Ping()
 	if err != nil {
 		return nil, fmt.Errorf("error pinging database: %v", err)
 	}
 
 	return &userRepo{db: db}, nil
+
 }
 
 func (r *userRepo) FetchUser() (*models.User, error) {
@@ -49,4 +51,23 @@ func (r *userRepo) FetchUser() (*models.User, error) {
 		return nil, fmt.Errorf("error fetching user: %v", err)
 	}
 	return &user, nil
+}
+
+func (r *userRepo) GetAll() ([]*models.User, error) {
+	rows, err := r.db.Query("SELECT id, name FROM users")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		if err := rows.Scan(&user.ID, &user.Name); err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }

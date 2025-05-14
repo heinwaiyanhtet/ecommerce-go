@@ -22,3 +22,7 @@ services:
 
 volumes:
   db_data:
+
+
+# docker exec -it ecommerce-mysql bash
+# mysql -u ecommerce_user -p

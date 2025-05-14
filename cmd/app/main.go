@@ -5,34 +5,38 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"github.com/ecommerce-go/internal/handler"
-	"github.com/ecommerce-go/internal/repository"
-	"github.com/ecommerce-go/internal/service"
+
+	handlers "github.com/ecommerce-go/internal/handler"
+	repositories "github.com/ecommerce-go/internal/repository"
+	services "github.com/ecommerce-go/internal/service"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
 
-	// Print the environment variables (optional)
-	fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))
-	fmt.Println("DB_PORT:", os.Getenv("DB_PORT"))
+		err := godotenv.Load()
 
-	// Initialize repository and services
-	repo, err := repositories.NewUserRepo()
-	if err != nil {
-		log.Fatalf("Error initializing user repo: %v", err)
-	}
-	userService := services.NewUserService(repo)
-	userHandler := handlers.NewUserHandler(userService)
+		if err != nil {
+			log.Fatalf("Error loading .env file")
+		}
 
-	// Set up HTTP routing
-	http.HandleFunc("/user", userHandler.GetUser)
-	port := ":8080"  // Example port
-	fmt.Printf("Starting server on %s\n", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+		fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))
+		fmt.Println("DB_PORT:", os.Getenv("DB_PORT"))
+
+		repo, err := repositories.NewUserRepo()
+
+		if err != nil {
+			log.Fatalf("Error initializing user repo: %v", err)
+		}
+
+		userService := services.NewUserService(repo)
+		userHandler := handlers.NewUserHandler(userService)
+
+		mux := http.NewServeMux()
+		
+		mux.HandleFunc("/users", userHandler.GetAllUsers)
+
+		port := ":8080"
+		fmt.Printf("Starting server on %s\n", port)
+		log.Fatal(http.ListenAndServe(port, mux))
 }
