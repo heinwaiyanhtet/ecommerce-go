@@ -14,8 +14,8 @@ func NewUserHandler(service services.UserService) *UserHandler {
 	return &UserHandler{service: service}
 }
 
-// GetUser is a handler function that fetches a user
 func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+
 	user, err := h.service.GetUser()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -25,4 +25,20 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(user)
+
 }
+
+// internal/handlers/user_handler.go
+func (h *UserHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
+
+    users, err := h.service.GetAllUsers()
+    if err != nil {
+        http.Error(w, "failed to get users", http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(users)
+	
+}
+

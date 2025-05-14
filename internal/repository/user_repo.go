@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"github.com/ecommerce-go/internal/model"
+
+	models "github.com/ecommerce-go/internal/model"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type UserRepository interface {
 	FetchUser() (*models.User, error)
+	GetAll() ([]*models.User, error) 
 }
 
 type userRepo struct {
@@ -49,4 +51,23 @@ func (r *userRepo) FetchUser() (*models.User, error) {
 		return nil, fmt.Errorf("error fetching user: %v", err)
 	}
 	return &user, nil
+}
+
+func (r *userRepo) GetAll() ([]*models.User, error) {
+	rows, err := r.db.Query("SELECT id, name FROM users")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		if err := rows.Scan(&user.ID, &user.Name); err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }
