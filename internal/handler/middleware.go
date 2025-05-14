@@ -2,15 +2,17 @@
 package handlers
 
 import (
-    "net/http"
-    "strings"
-
-    "github.com/golang-jwt/jwt/v4"
+	"net/http"
+	"strings"
+	"github.com/golang-jwt/jwt/v4"
 )
 
+
 func JWTMiddleware(secret []byte) func(http.Handler) http.Handler {
-    return func(next http.Handler) http.Handler {
-        return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+	return func(next http.Handler) http.Handler {
+
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
             auth := r.Header.Get("Authorization")
             if auth == "" || !strings.HasPrefix(auth, "Bearer ") {
                 http.Error(w, "missing or invalid auth header", http.StatusUnauthorized)
@@ -26,5 +28,7 @@ func JWTMiddleware(secret []byte) func(http.Handler) http.Handler {
             }
             next.ServeHTTP(w, r)
         })
-    }
+
+	}
+
 }

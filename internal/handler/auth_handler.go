@@ -9,3 +9,6 @@ type AuthHandler struct{
 func NewAuthHandler(a services.AuthService) *AuthHandler {
     return &AuthHandler{auth: a}
 }
+
+
+
