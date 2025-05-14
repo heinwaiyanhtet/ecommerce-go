@@ -11,8 +11,11 @@ import (
 
 type UserRepository interface {
 	FetchUser() (*models.User, error)
-	GetAll() ([]*models.User, error) 
+	GetAll() ([]*models.User, error)
+	GetByUserName(username string) (*models.User, error)
+	Create(u *models.User) error
 }
+
 
 type userRepo struct {
 	db *sql.DB
@@ -44,11 +47,10 @@ func NewUserRepo() (*userRepo, error) {
 
 }
 
-
 func (r *userRepo) Create(u *models.User) error {
 
-	query := "INSERT INTO users (name,PasswordHash) VALUES (?,?)";
-	res,err := r.db.Exec(query, u.Name, u.PasswordHash)
+	query := "INSERT INTO users (name,PasswordHash) VALUES (?,?)"
+	res, err := r.db.Exec(query, u.Name, u.PasswordHash)
 	if err != nil {
 		return fmt.Errorf("insert user: %w", err)
 	}
@@ -56,28 +58,21 @@ func (r *userRepo) Create(u *models.User) error {
 	u.ID = int(id)
 	return nil
 
-
-}
-
-
-func (r *userRepo) GetByUserName(username string) (*models.User, error){
-
-		u := &models.User{};
-		query := "Select id,name,PasswordHash FROM users WHERE username = ?"
-		err := r.db.QueryRow(query,username).Scan(&u.ID, &u.Name, &u.PasswordHash)
-		if err != nil {
-			return nil, fmt.Errorf("get user: %w", err)
-
-		}
-		return u, nil
 }
 
 
 
+func (r *userRepo) GetByUserName(username string) (*models.User, error) {
 
+	u := &models.User{}
+	query := "Select id,name,PasswordHash FROM users WHERE username = ?"
+	err := r.db.QueryRow(query, username).Scan(&u.ID, &u.Name, &u.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("get user: %w", err)
 
-
-
+	}
+	return u, nil
+}
 
 func (r *userRepo) FetchUser() (*models.User, error) {
 	var user models.User
