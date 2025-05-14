@@ -17,7 +17,7 @@ type userRepo struct {
 }
 
 func NewUserRepo() (*userRepo, error) {
-	// Read environment variables
+
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
@@ -33,13 +33,13 @@ func NewUserRepo() (*userRepo, error) {
 		return nil, fmt.Errorf("error opening database: %v", err)
 	}
 
-	// Test the connection
 	err = db.Ping()
 	if err != nil {
 		return nil, fmt.Errorf("error pinging database: %v", err)
 	}
 
 	return &userRepo{db: db}, nil
+
 }
 
 func (r *userRepo) FetchUser() (*models.User, error) {
