@@ -12,10 +12,10 @@ type UserHandler struct {
 }
 
 
-
 func NewUserHandler(service services.UserService) *UserHandler {
 	return &UserHandler{service: service}
 }
+
 
 func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 
@@ -30,8 +30,6 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 
 }
-
-
 
 
 func (h *UserHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +50,6 @@ func (h *UserHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 			userVals[i] = *u
 		}
 	}
-
 
 	response := models.UsersResponse{Value: userVals}
 	json.NewEncoder(w).Encode(response)

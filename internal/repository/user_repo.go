@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	models "github.com/ecommerce-go/internal/model"
@@ -15,7 +16,6 @@ type UserRepository interface {
 	GetByUserName(username string) (*models.User, error)
 	Create(u *models.User) error
 }
-
 
 type userRepo struct {
 	db *sql.DB
@@ -60,19 +60,25 @@ func (r *userRepo) Create(u *models.User) error {
 
 }
 
+	func (r *userRepo) GetByUserName(name string) (*models.User, error) {
+		u := &models.User{}
 
+		log.Printf("Looking up user by name: %s", name) // Debug input
 
-func (r *userRepo) GetByUserName(username string) (*models.User, error) {
+		query := "SELECT id, name, PasswordHash FROM users WHERE name = ?"
+		err := r.db.QueryRow(query, name).Scan(&u.ID, &u.Name, &u.PasswordHash)
 
-	u := &models.User{}
-	query := "Select id,name,PasswordHash FROM users WHERE username = ?"
-	err := r.db.QueryRow(query, username).Scan(&u.ID, &u.Name, &u.PasswordHash)
-	if err != nil {
-		return nil, fmt.Errorf("get user: %w", err)
+		if err != nil {
+			log.Printf("Error fetching user %s: %v", name, err)
+			return nil, fmt.Errorf("get user: %w", err)
+		}
 
+		log.Printf("User found: ID=%d, Name=%s, PasswordHash length=%d", u.ID, u.Name, len(u.PasswordHash))
+
+		return u, nil
 	}
-	return u, nil
-}
+
+
 
 func (r *userRepo) FetchUser() (*models.User, error) {
 	var user models.User

@@ -7,17 +7,20 @@ This guide provides sample `curl` commands for testing the **Create, Read, Updat
 ## ✅ Create User (POST)
 
 ```bash
-curl -X POST http://localhost:8080/users \
--H "Content-Type: application/json" \
--d '{"name": "John Doe", "email": "john@example.com"}'
+
+curl -X POST http://localhost:8080/signup \     
+  -H "Content-Type: application/json" \
+  -d '{"name":"heinwaiyanhtet", "password":"12345678"}'
 
 
-curl -X GET http://localhost:8080/users/1
+curl -X GET http://localhost:8080/users
 
 
-curl -X PUT http://localhost:8080/users/1 \
--H "Content-Type: application/json" \
--d '{"name": "Johnny D", "email": "johnnyd@example.com"}'
+curl -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{"name":"heinwaiyanhtet2", "password":"12345678"}'
 
 
-curl -X DELETE http://localhost:8080/users/1
+# {"exp":"2025-05-17T20:37:39+06:30","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDc0OTA4NTksInN1YiI6N30.0SIhXTtzTnZKthr2YfVsA3I1t3JyNMK7BQ7QrQAjBpA"}
+
+
