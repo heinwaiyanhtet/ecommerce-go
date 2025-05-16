@@ -6,3 +6,8 @@ type User struct {
 	Name string `json:"name"`
 	PasswordHash string `json:"-"`
 }
+
+
+type UsersResponse struct {
+    Value []User `json:"value"`
+}
