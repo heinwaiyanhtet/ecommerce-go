@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
 	"github.com/ecommerce-go/internal/service"
 )
 
@@ -20,7 +21,7 @@ func NewAuthHandler(a services.AuthService) *AuthHandler {
 func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request)  {
 	
 	 var req struct{
-			name string `json:"name"`
+			Name string `json:"name"`
 			Password string `json:"password"`
 	 }
 
@@ -29,7 +30,7 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request)  {
 		return
 	 }
 
-	 user, err := h.auth.Register(req.name, req.Password)
+	 user, err := h.auth.Register(req.Name, req.Password)
 
 	 if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -45,16 +46,17 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request)  {
 func (h *AuthHandler) Login (w http.ResponseWriter , r *http.Request){
 
 	var req struct {
-        name string `name:"username"`
-        Password string `json:"password"`
-    }
+		Name     string `json:"name"`
+		Password string `json:"password"`
+	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
 
-	token, err := h.auth.Login(req.name, req.Password)
+	token, err := h.auth.Login(req.Name, req.Password)
+
     if err != nil {
         http.Error(w, err.Error(), http.StatusUnauthorized)
         return
