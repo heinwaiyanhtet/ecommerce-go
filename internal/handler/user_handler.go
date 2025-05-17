@@ -3,8 +3,8 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/ecommerce-go/internal/service"
-	"github.com/ecommerce-go/internal/model"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/service"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/model"
 )
 
 type UserHandler struct {

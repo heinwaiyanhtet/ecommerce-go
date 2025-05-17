@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ecommerce-go/internal/service"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/service"
 )
 
 type AuthHandler struct{
