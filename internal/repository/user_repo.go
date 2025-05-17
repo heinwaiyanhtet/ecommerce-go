@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	models "github.com/ecommerce-go/internal/model"
+	models "github.com/heinwaiyanhtet/ecommerce-go/internal/model"
 	_ "github.com/go-sql-driver/mysql"
 )
 

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ecommerce-go/internal/service"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/service"
 )
 
 type AuthHandler struct{
@@ -15,7 +15,6 @@ type AuthHandler struct{
 func NewAuthHandler(a services.AuthService) *AuthHandler {
     return &AuthHandler{auth: a}
 }
-
 
 
 func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request)  {
@@ -65,4 +64,5 @@ func (h *AuthHandler) Login (w http.ResponseWriter , r *http.Request){
         "token": token,
         "exp":   time.Now().Add(time.Hour * 24).Format(time.RFC3339),
     })
+	
 }

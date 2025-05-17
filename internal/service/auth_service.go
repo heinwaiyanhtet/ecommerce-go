@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	models "github.com/ecommerce-go/internal/model"
-	repositories "github.com/ecommerce-go/internal/repository"
+	models "github.com/heinwaiyanhtet/ecommerce-go/internal/model"
+	repositories "github.com/heinwaiyanhtet/ecommerce-go/internal/repository"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )

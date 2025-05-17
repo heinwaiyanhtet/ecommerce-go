@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/ecommerce-go/internal/repository"
-	"github.com/ecommerce-go/internal/model"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/repository"
+	"github.com/heinwaiyanhtet/ecommerce-go/internal/model"
 )
 
 type UserService interface {
