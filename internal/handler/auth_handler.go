@@ -17,7 +17,6 @@ func NewAuthHandler(a services.AuthService) *AuthHandler {
 }
 
 
-
 func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request)  {
 	
 	 var req struct{
@@ -65,4 +64,5 @@ func (h *AuthHandler) Login (w http.ResponseWriter , r *http.Request){
         "token": token,
         "exp":   time.Now().Add(time.Hour * 24).Format(time.RFC3339),
     })
+	
 }
