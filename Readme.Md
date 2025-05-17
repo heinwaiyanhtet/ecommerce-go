@@ -24,3 +24,13 @@ curl -X POST http://localhost:8080/login \
 # {"exp":"2025-05-17T20:37:39+06:30","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDc0OTA4NTksInN1YiI6N30.0SIhXTtzTnZKthr2YfVsA3I1t3JyNMK7BQ7QrQAjBpA"}
 
 
+
+curl -X POST http://localhost:8080/orders \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "1",
+    "amount": 99.99,
+    "status": "pending"
+  }'
+

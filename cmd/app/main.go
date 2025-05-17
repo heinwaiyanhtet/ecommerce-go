@@ -7,13 +7,11 @@ import (
 	"net/http"
 	"os"
 	"time"
-
 	handlers "github.com/heinwaiyanhtet/ecommerce-go/internal/handler"
 	repositories "github.com/heinwaiyanhtet/ecommerce-go/internal/repository"
 	services "github.com/heinwaiyanhtet/ecommerce-go/internal/service"
 	"github.com/heinwaiyanhtet/ecommerce-go/pkg/rabbitmq"
 	"github.com/joho/godotenv"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -96,10 +94,10 @@ func main() {
 		w.Write([]byte("Secret data"))
 	})
 
-	
 	mux.Handle("/secret", handlers.JWTMiddleware([]byte(os.Getenv("JWT_SECRET")))(protected))
 
 	port := ":8080"
 	fmt.Printf("Starting server on %s\n", port)
 	log.Fatal(http.ListenAndServe(port, mux))
+
 }

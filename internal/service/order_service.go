@@ -21,15 +21,17 @@ func NewOrderService(repo *repositories.OrderRepository, publisher *OrderPublish
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {
-
+	// generate ID for new order
 	order.ID = uuid.New().String()
 	order.Status = "created"
 
+	// 1. Save order to DB
 	err := s.orderRepo.Create(ctx, order)
 	if err != nil {
 		return err
 	}
 
+	// 2. Publish event asynchronously (non-blocking)
 	go func(orderID string) {
 		err := s.orderPublisher.PublishOrderCreated(orderID)
 		if err != nil {
