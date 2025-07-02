@@ -19,7 +19,7 @@ func main() {
 	// Load env variables
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Println(".env file not found, relying on environment variables")
 	}
 
 	fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))

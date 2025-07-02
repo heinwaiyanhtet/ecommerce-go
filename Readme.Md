@@ -34,3 +34,32 @@ curl -X POST http://localhost:8080/orders \
     "status": "pending"
   }'
 
+
+
+---
+
+## 🚢 Docker Usage
+
+Build the container image:
+
+```bash
+docker build -t registry.digitalocean.com/your-repo/ecommerce-go:latest .
+```
+
+Run the image locally:
+
+```bash
+docker run --env-file .env -p 8080:8080 registry.digitalocean.com/your-repo/ecommerce-go:latest
+```
+
+## ☸️ Deploy to Kubernetes
+
+Apply the manifests in the `k8s/` directory:
+
+```bash
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+```
+
+Ensure your environment variables are set using a `Secret` or `ConfigMap` when deploying to DigitalOcean Kubernetes.
+
