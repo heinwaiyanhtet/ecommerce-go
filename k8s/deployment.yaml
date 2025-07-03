@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: registry.digitalocean.com/ecommerce-go
+        image: registry.digitalocean.com/ecommerce-go/go-hello:latest
         ports:
         - containerPort: 8080
         env:
