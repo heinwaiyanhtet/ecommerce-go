@@ -15,8 +15,12 @@ spec:
       containers:
       - name: api
         image: registry.digitalocean.com/ecommerce-go/go-hello:latest
+        envFrom:
+        - configMapRef:
+            name: ecommerce-env
+        - secretRef:
+            name: ecommerce-secret
         ports:
         - containerPort: 8080
-       
 
 

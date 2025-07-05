@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-env
+data:
+  DB_HOST: db-mysql-sgp1-18326-do-user-22781969-0.l.db.ondigitalocean.com
+  DB_PORT: "25060"
+  DB_USER: doadmin
+  DB_NAME: defaultdb
