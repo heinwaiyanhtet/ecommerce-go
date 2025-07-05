@@ -43,7 +43,11 @@ curl -X POST http://localhost:8080/orders \
 Build the container image:
 
 ```bash
-docker build -t registry.digitalocean.com/your-repo/ecommerce-go:latest .
+
+
+docker buildx build --platform linux/amd64 -t registry.digitalocean.com/ecommerce-go/go-hello:latest --push .
+
+
 ```
 
 Run the image locally:

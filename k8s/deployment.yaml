@@ -17,16 +17,6 @@ spec:
         image: registry.digitalocean.com/ecommerce-go/go-hello:latest
         ports:
         - containerPort: 8080
-        env:
-        - name: DB_HOST
-          value: mysql
-        - name: DB_PORT
-          value: "3306"
-        - name: DB_USER
-          value: ecommerce_user
-        - name: DB_PASSWORD
-          value: userpass123
-        - name: DB_NAME
-          value: ecommerce_db
-        - name: JWT_SECRET
-          value: change_me
+       
+
+
