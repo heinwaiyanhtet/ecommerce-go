@@ -2,21 +2,18 @@ package services
 
 import (
 	"context"
-	"log"
 	"github.com/google/uuid"
 	"github.com/heinwaiyanhtet/ecommerce-go/internal/model"
 	"github.com/heinwaiyanhtet/ecommerce-go/internal/repository"
 )
 
 type OrderService struct {
-	orderRepo      *repositories.OrderRepository
-	orderPublisher *OrderPublisher
+	orderRepo *repositories.OrderRepository
 }
 
-func NewOrderService(repo *repositories.OrderRepository, publisher *OrderPublisher) *OrderService {
+func NewOrderService(repo *repositories.OrderRepository) *OrderService {
 	return &OrderService{
-		orderRepo:      repo,
-		orderPublisher: publisher,
+		orderRepo: repo,
 	}
 }
 
@@ -30,14 +27,6 @@ func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) err
 	if err != nil {
 		return err
 	}
-
-	// 2. Publish event asynchronously (non-blocking)
-	go func(orderID string) {
-		err := s.orderPublisher.PublishOrderCreated(orderID)
-		if err != nil {
-			log.Printf("Failed to publish order created event: %v", err)
-		}
-	}(order.ID)
 
 	return nil
 }

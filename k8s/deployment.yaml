@@ -30,5 +30,3 @@ spec:
           value: ecommerce_db
         - name: JWT_SECRET
           value: change_me
-        - name: RABBITMQ_URL
-          value: amqp://guest:guest@rabbitmq:5672/
