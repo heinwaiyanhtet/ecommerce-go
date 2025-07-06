@@ -22,5 +22,3 @@ spec:
             name: ecommerce-secret
         ports:
         - containerPort: 8080
-
-

@@ -5,5 +5,4 @@ k8s/secret.yaml
 *.secret.yaml
 secret*.yaml
 
-
 .env
