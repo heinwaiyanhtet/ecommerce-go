@@ -67,3 +67,7 @@ kubectl apply -f k8s/service.yaml
 
 Ensure your environment variables are set using a `Secret` or `ConfigMap` when deploying to DigitalOcean Kubernetes.
 
+## 🔍 Health Endpoints
+
+The API exposes `/live` and `/ready` endpoints for Kubernetes liveness and readiness probes. These routes return `200 OK` when the service is running, and the readiness probe checks database connectivity.
+

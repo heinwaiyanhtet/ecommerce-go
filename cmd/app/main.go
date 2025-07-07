@@ -21,8 +21,6 @@ func main() {
 		log.Println(".env file not found, relying on environment variables")
 	}
 
-
-
 	// // Build DSN and connect to DB
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 		os.Getenv("DB_USER"),
@@ -59,6 +57,9 @@ func main() {
 
 	orderService := services.NewOrderService(orderRepo)
 
+	// Health handler uses db for readiness checks
+	healthHandler := handlers.NewHealthHandler(db)
+
 	// Initialize handlers
 	authHandler := handlers.NewAuthHandler(authSvc)
 	userHandler := handlers.NewUserHandler(userService)
@@ -70,7 +71,8 @@ func main() {
 	mux.HandleFunc("/login", authHandler.Login)
 	mux.HandleFunc("/users", userHandler.GetAllUsers)
 	mux.HandleFunc("/orders", orderHandler.CreateOrder)
-
+	mux.HandleFunc("/live", healthHandler.Live)
+	mux.HandleFunc("/ready", healthHandler.Ready)
 
 	protected := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Secret data"))
