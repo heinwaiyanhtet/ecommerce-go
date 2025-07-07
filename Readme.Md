@@ -63,7 +63,9 @@ Apply the manifests in the `k8s/` directory:
 ```bash
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/hpa.yaml
 ```
+The HPA automatically scales the Deployment replicas based on CPU load.
 
 Ensure your environment variables are set using a `Secret` or `ConfigMap` when deploying to DigitalOcean Kubernetes.
 
