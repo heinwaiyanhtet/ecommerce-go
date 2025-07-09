@@ -69,6 +69,11 @@ The HPA automatically scales the Deployment replicas based on CPU load.
 
 Ensure your environment variables are set using a `Secret` or `ConfigMap` when deploying to DigitalOcean Kubernetes.
 
+
+## for metric server installation
+dkubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
 ## 🔍 Health Endpoints
 
 The API exposes `/live` and `/ready` endpoints for Kubernetes liveness and readiness probes. These routes return `200 OK` when the service is running, and the readiness probe checks database connectivity.
