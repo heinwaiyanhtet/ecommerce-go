@@ -1,5 +1,5 @@
 # Ignore Kubernetes secrets
-k8s/secret.yaml
+# k8s/secret.yaml
 
 # Optionally, ignore all secret files
 *.secret.yaml
